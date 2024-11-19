@@ -46,7 +46,7 @@ h2 {
 }
 
 h4 {
-  font-weight: 300;
+  font-weight: 350;
   font-size: 1.5rem;
   text-transform: capitalize;
 }
@@ -393,7 +393,8 @@ main {
 
 #started,
 #usage,
-#more {
+#more,
+#notice {
   padding-top: 3rem;
 }
 
@@ -404,6 +405,12 @@ main {
 
 #started .main-container,
 #usage .main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#notice .main-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -471,6 +478,18 @@ pre.js::before {
 #usage {
   background-color: #ffffff;
   color: #ffffff;
+}
+
+/* Section: notice */
+
+#notice {
+  background-color: #ffe4e1;
+  color: #ffffff;
+}
+
+#notice h4 {
+  color: #000;
+  font-weight: bold;
 }
 
 /* Fullview dots */
