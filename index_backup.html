@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
+    <title>Preview • Pico CSS</title>
     <meta
       name="description"
       content="A pure HTML example, without dependencies."
-    />
-
-    <!-- Pico.css -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6/css/pico.min.css"
     />
 
     <!-- Pico.css -->
@@ -52,57 +46,16 @@
       href="https://cdn.jsdelivr.net/gh/dinoqqq/simple-popup@master/dist/jquery.simple-popup.min.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+    />
   </head>
   <body>
-    <!-- Main -->
-    <main class="container">
-      <!-- dashboad1 -->
-      <section id="dashboad1" style="background-color: #fbf7f3">
-        <h2>dashboad1</h2>
-        <!-- Lists-->
-        <h3>Lists</h3>
-        <ul>
-          <li>Aliquam lobortis lacus eu libero ornare facilisis.</li>
-          <li>Nam et magna at libero scelerisque egestas.</li>
-          <li>Suspendisse id nisl ut leo finibus vehicula quis eu ex.</li>
-          <li>Proin ultricies turpis et volutpat vehicula.</li>
-        </ul>
-      </section>
-      <!-- ./ dashboad1 -->
-
-      <!-- dashboad2 -->
-      <section id="dashboad2" style="background-color: #ffffff">
-        <h2>dashboad2</h2>
-        <!-- Lists-->
-        <h3>Lists</h3>
-        <ul>
-          <li>Aliquam lobortis lacus eu libero ornare facilisis.</li>
-          <li>Nam et magna at libero scelerisque egestas.</li>
-          <li>Suspendisse id nisl ut leo finibus vehicula quis eu ex.</li>
-          <li>Proin ultricies turpis et volutpat vehicula.</li>
-        </ul>
-      </section>
-      <!-- ./ dashboad2 -->
-
-      <!-- dashboad3 -->
-      <section id="dashboad3" style="background-color: #e9f2e8">
-        <h2>dashboad3</h2>
-        <!-- Lists-->
-        <h3>Lists</h3>
-        <ul>
-          <li>Aliquam lobortis lacus eu libero ornare facilisis.</li>
-          <li>Nam et magna at libero scelerisque egestas.</li>
-          <li>Suspendisse id nisl ut leo finibus vehicula quis eu ex.</li>
-          <li>Proin ultricies turpis et volutpat vehicula.</li>
-        </ul>
-      </section>
-      <!-- ./ dashboad3 -->
-    </main>
-
     <!-- Header -->
     <header class="container">
       <hgroup>
-        <h1>Pico</h1>
+        <h1>오늘내주변은</h1>
         <p>A pure HTML example, without dependencies.</p>
       </hgroup>
       <nav>
@@ -613,49 +566,6 @@
         ></small
       >
     </footer>
-    <!-- ./ Footer -->
-
-    <!-- Modal example -->
-    <dialog id="modal-example">
-      <article>
-        <header>
-          <button
-            aria-label="Close"
-            rel="prev"
-            data-target="modal-example"
-            onclick="toggleModal(event)"
-          ></button>
-          <h3>Confirm your action!</h3>
-        </header>
-        <p>
-          Cras sit amet maximus risus. Pellentesque sodales odio sit amet augue
-          finibus pellentesque. Nullam finibus risus non semper euismod.
-        </p>
-        <footer>
-          <button
-            role="button"
-            class="secondary"
-            data-target="modal-example"
-            onclick="toggleModal(event)"
-          >
-            Cancel</button
-          ><button
-            autofocus
-            data-target="modal-example"
-            onclick="toggleModal(event)"
-          >
-            Confirm
-          </button>
-        </footer>
-      </article>
-    </dialog>
-    <!-- ./ Modal example -->
-
-    <!-- Minimal theme switcher -->
-    <script src="js/minimal-theme-switcher.js"></script>
-
-    <!-- Modal -->
-    <script src="js/modal.js"></script>
 
     <!-- Title Section -->
     <!--
