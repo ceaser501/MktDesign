@@ -420,6 +420,10 @@ main {
   min-width: 98%;
 }
 
+.section-box2 {
+  min-width: 65%;
+}
+
 .section-box h4 {
   font-size: 1.3rem;
 }
