@@ -32,65 +32,200 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <title>SW AI 시장지향 실무설계</title>
-  </head>
-  <script>
-    $(document).ready(function () {
-      var data = JSON.stringify({
-        id: "id_test",
-        // id: getUVfromCookie(),
-        landingUrl: window.location.href,
-        ip: "127.0.0.1",
-        // ip: ip,
-        referer: document.referrer,
-        time_stamp: "test",
-        // time_stamp: getTimeStamp(),
-        utm: "test", // http://127.0.0.1:5500/class.html?utm=campaign1 로 호출시, utm을 가져옴
-        // device: mobile,
-        device: "123",
-      });
 
-      axios
-        .get(
-          "https://script.google.com/macros/s/AKfycbwg_Rdd64qywC5YvkWeHYOX0RRbKBynzZum22-KvbGQByEzdlt1tqKHzrdRQ3GDvFJjCA/exec?action=insert&table=visitor&data=" +
-            data
+    <!-- IP 가져오기 -->
+    <script type="application/javascript">
+      var ip = "null";
+      function getIP(json) {
+        console.log(json);
+        try {
+          ip = json.ip;
+        } catch (e) {
+          ip = "unknown";
+        }
+        return;
+      }
+    </script>
+    <script
+      type="application/javascript"
+      src="https://jsonip.com?format=jsonp&callback=getIP"
+    ></script>
+
+    <script>
+      /*********** cookie 가져오기 ***********/
+      // 쿠키에서 값을 가져오는 함수
+      function getCookieValue(name) {
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) {
+          return parts.pop().split(";").shift();
+        }
+      }
+
+      // 쿠키에 값을 저장하는 함수
+      function setCookieValue(name, value, days) {
+        let expires = "";
+        if (days) {
+          const date = new Date();
+          date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+          expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+      }
+
+      function getUVfromCookie() {
+        // 6자리 임의의 문자열 생성
+        const hash = Math.random().toString(36).substring(2, 8).toUpperCase();
+        // 쿠키에서 기존 해시 값을 가져옴
+        const existingHash = getCookieValue("user");
+        // 기존 해시 값이 없으면, 새로운 해시 값을 쿠키에 저장
+        if (!existingHash) {
+          setCookieValue("user", hash, 180); // 쿠키 만료일은 6개월
+          return hash;
+        } else {
+          // 기존 해시 값이 있으면, 기존 값을 반환
+          return existingHash;
+        }
+      }
+
+      /* 수정 payload data -> id:getUVfromCookie() */
+
+      /*********** Timestamp 가져오기 ***********/
+      // Sam pading value to start with 0. eg: 01, 02, .. 09, 10, ..
+      function padValue(value) {
+        return value < 10 ? "0" + value : value;
+      }
+
+      function getTimeStamp() {
+        const date = new Date();
+
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const seconds = date.getSeconds();
+
+        const formattedDate = `${padValue(year)}-${padValue(month)}-${padValue(
+          day
+        )} ${padValue(hours)}:${padValue(minutes)}:${padValue(seconds)}`;
+
+        return formattedDate;
+      }
+
+      /*********** utm 가져오기 ***********/
+      /* data를 만들 땐 모든 field가 들어 있어야 함 */
+      var queryString = location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const utm = urlParams.get("utm");
+
+      /*********** device 가져오기 ***********/
+      var mobile = "desktop";
+      if (
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
         )
-        .then((response) => {
-          console.log(JSON.stringify(response));
-        })
-        .catch((error) => {
-          if (error.response) {
-            // 서버가 2xx 범위를 벗어난 상태 코드로 응답한 경우
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-          } else if (error.request) {
-            // 요청이 전송되었지만 응답을 받지 못한 경우
-            console.log(error.request);
-          } else {
-            // 요청 설정 중에 오류가 발생한 경우
-            console.log("Error", error.message);
-          }
-          console.log(error.config);
+      ) {
+        // true for mobile device
+        mobile = "mobile";
+      }
+
+      /*********** submit action ***********/
+      function submitAction() {
+        const email = $("#submit-email").val();
+        const advice = $("#submit-advice").val();
+
+        function validateEmail(email) {
+          var re =
+            /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+          return re.test(email);
+        }
+
+        if (email == "" || !validateEmail(email)) {
+          alert("이메일이 유효하지 않아 알림을 드릴 수가 없습니다. ");
+          return;
+        }
+
+        axios
+          .get(
+            "https://script.google.com/macros/s/AKfycbx61E58jK3S268TZIhKwgK771Lef0cu1oF8zDcp3YUc_yINUNuxS9yXrAwyqi9lIyuz/exec",
+            {
+              params: {
+                action: "insert",
+                table: "registraion",
+                data: JSON.stringify({
+                  id: getUVfromCookie(),
+                  email: email,
+                  advice: advice,
+                }),
+              },
+            }
+          )
+          .then((response) => {
+            console.log(response.data.data);
+            alert(JSON.stringify(response));
+            $("#submit-email").val("");
+            $("#submit-advice").val("");
+          });
+      }
+    </script>
+    <script>
+      $(document).ready(function () {
+        var data = JSON.stringify({
+          // id: "id_test",
+          id: getUVfromCookie(),
+          landingUrl: window.location.href,
+          ip: ip,
+          referer: document.referrer,
+          time_stamp: getTimeStamp(),
+          utm: utm, // http://127.0.0.1:5500/class.html?utm=campaign1 로 호출시, utm을 가져옴
+          device: mobile,
         });
-    });
 
-    $(window).on("load", function () {
-      $("#fullview").fullView({
-        //Navigation
-        navbar: "#navbar",
-        backToTop: true,
-
-        // Callback
-        onScrollEnd: function (currentView) {
-          if (!currentView.hasClass("nav-transparent")) {
-            $(".header").addClass("changed");
-          } else {
-            $(".header").removeClass("changed");
-          }
-        },
+        axios
+          .get(
+            "https://script.google.com/macros/s/AKfycbx61E58jK3S268TZIhKwgK771Lef0cu1oF8zDcp3YUc_yINUNuxS9yXrAwyqi9lIyuz/exec?action=insert&table=visitor&data=" +
+              data
+          )
+          .then((response) => {
+            console.log(JSON.stringify(response));
+          })
+          .catch((error) => {
+            if (error.response) {
+              // 서버가 2xx 범위를 벗어난 상태 코드로 응답한 경우
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              // 요청이 전송되었지만 응답을 받지 못한 경우
+              console.log(error.request);
+            } else {
+              // 요청 설정 중에 오류가 발생한 경우
+              console.log("Error", error.message);
+            }
+            console.log(error.config);
+          });
       });
-    });
-  </script>
+
+      $(window).on("load", function () {
+        $("#fullview").fullView({
+          //Navigation
+          navbar: "#navbar",
+          backToTop: true,
+
+          // Callback
+          onScrollEnd: function (currentView) {
+            if (!currentView.hasClass("nav-transparent")) {
+              $(".header").addClass("changed");
+            } else {
+              $(".header").removeClass("changed");
+            }
+          },
+        });
+      });
+    </script>
+  </head>
+
   <body>
     <div class="header">
       <div class="main-container">
@@ -280,6 +415,7 @@
             </div>
             <div>
               <input
+                id="submit-email"
                 type="email"
                 name="email"
                 placeholder="Email을 입력 해 주세요. 서비스 출시 소식을 알려드릴게요!"
@@ -288,13 +424,16 @@
                 required
               />
               <textarea
+                id="submit-advice"
                 name="bio"
                 cols="40"
                 rows="5"
                 placeholder="서비스에 대한 자유로운 의견을 남겨주세요."
                 aria-label="Professional short bio"
               ></textarea>
-              <button type="submit">서비스 출시 소식을 받아볼래요!</button>
+              <button type="button" onclick="submitAction()">
+                서비스 출시 소식을 받아볼래요!
+              </button>
             </div>
           </div>
         </div>
