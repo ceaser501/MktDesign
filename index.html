@@ -148,15 +148,15 @@
 
         axios
           .get(
-            "https://script.google.com/macros/s/AKfycbx61E58jK3S268TZIhKwgK771Lef0cu1oF8zDcp3YUc_yINUNuxS9yXrAwyqi9lIyuz/exec",
+            "https://script.google.com/macros/s/AKfycbycf3n3IJV01GeenFGe2o1aScyTNDMpSQnA4sWU6DGOp2qRkNobV4W98CgKTH4YavLRhQ/exec",
             {
               params: {
                 action: "insert",
-                table: "registraion",
+                table: "registration",
                 data: JSON.stringify({
                   id: getUVfromCookie(),
-                  email: email,
-                  advice: advice,
+                  email: email.replace(/[\n\r\t]/g, ""), // 특수 문자 제거
+                  advice: advice.replace(/[\n\r\t]/g, ""), // 특수 문자 제거
                 }),
               },
             }
@@ -184,7 +184,7 @@
 
         axios
           .get(
-            "https://script.google.com/macros/s/AKfycbx61E58jK3S268TZIhKwgK771Lef0cu1oF8zDcp3YUc_yINUNuxS9yXrAwyqi9lIyuz/exec?action=insert&table=visitor&data=" +
+            "https://script.google.com/macros/s/AKfycbycf3n3IJV01GeenFGe2o1aScyTNDMpSQnA4sWU6DGOp2qRkNobV4W98CgKTH4YavLRhQ/exec?action=insert&table=visitor&data=" +
               data
           )
           .then((response) => {
@@ -405,12 +405,10 @@
           <div class="section-box2">
             <div class="section-content">
               <div>
-                <p style="font-size: 37px; font-weight: bold">
-                  "오늘 내 주변은" 서비스가 출시될 때
-                </p>
-                <p style="font-size: 37px; font-weight: bold">
-                  가장 먼저 알려드릴게요!
-                </p>
+                <h2 style="font-weight: bold">오늘 내 주변은</h2>
+                <h3 style="font-weight: bold">
+                  서비스가 출시될 때 가장 먼저 알려드릴게요!
+                </h3>
               </div>
             </div>
             <div>
@@ -431,7 +429,11 @@
                 placeholder="서비스에 대한 자유로운 의견을 남겨주세요."
                 aria-label="Professional short bio"
               ></textarea>
-              <button type="button" onclick="submitAction()">
+              <button
+                type="button"
+                onclick="submitAction()"
+                style="margin-left: 35%"
+              >
                 서비스 출시 소식을 받아볼래요!
               </button>
             </div>
