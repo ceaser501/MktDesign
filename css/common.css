@@ -697,3 +697,23 @@ img {
     display: block !important;
   }
 } */
+
+.started-title-p {
+  font-size: 35px;
+}
+
+.started-subTitle1-p {
+  font-size: 20px;
+  margin-top: 15px !important;
+  margin-bottom: 0px !important;
+}
+.started-subTitle2-p {
+  font-size: 20px;
+}
+
+.usage-image {
+  width: 80px;
+  margin-bottom: 10%;
+  margin-top: 5%;
+  margin-left: 40%;
+}
