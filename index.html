@@ -2,38 +2,41 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>SW AI 시장지향 실무설계</title>
+    <!-- 
+
+Highway Template
+
+https://templatemo.com/tm-520-highway
+
+-->
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.jpg" />
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="css/fontAwesome.css" />
+    <link rel="stylesheet" href="css/light-box.css" />
+    <link rel="stylesheet" href="css/templatemo-style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Kanit:100,200,300,400,500,600,700,800,900"
+      rel="stylesheet"
     />
-    <meta name="color-scheme" content="light dark" />
-    <meta
-      name="description"
-      content="A pure HTML example, without dependencies."
-    />
+    <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 
     <!-- Pico.css -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6/css/pico.min.css"
     />
-
-    <!-- Full view min.css -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/fullview/dist/fullview.min.css"
-    />
-
     <!-- 공통css -->
     <link rel="stylesheet" href="css/common.css" />
-    <link rel="stylesheet" href="css/animate.css" />
-
-    <!-- Responsive 추가 -->
-    <link rel="stylesheet" href="css/responsive.css" />
+    <!-- <link rel="stylesheet" href="css/animate.css" /> -->
 
     <!-- js import -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullview/dist/fullview.min.js"></script>
 
     <!-- jquery, axios script import -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -44,25 +47,8 @@
       href="https://cdn.jsdelivr.net/npm/busy-load/dist/app.min.css"
       rel="stylesheet"
     />
-
-    <!-- wow-js -->
-    <script src="js/wow.min.js"></script>
-
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-    <!-- pop up -->
-    <script src="https://cdn.jsdelivr.net/gh/dinoqqq/simple-popup@master/dist/jquery.simple-popup.min.js"></script>
-    <link
-      href="https://cdn.jsdelivr.net/gh/dinoqqq/simple-popup@master/dist/jquery.simple-popup.min.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-
-    <title>SW AI 시장지향 실무설계</title>
-
-    <!-- Responsive JavaScript 추가 -->
-    <script src="js/responsive.js"></script>
 
     <!-- IP 가져오기 -->
     <script type="application/javascript">
@@ -226,8 +212,6 @@
     </script>
     <script>
       $(document).ready(function () {
-        $("#rotate").rotaterator({ fadeSpeed: 1000, pauseSpeed: 1000 });
-
         var data = JSON.stringify({
           // id: "id_test",
           id: getUVfromCookie(),
@@ -264,359 +248,1493 @@
           });
       });
 
-      $(window).on("load", function () {
-        $("#fullview").fullView({
-          //Navigation
-          navbar: "#navbar",
-          backToTop: true,
-
-          // Callback
-          onScrollEnd: function (currentView) {
-            if (!currentView.hasClass("nav-transparent")) {
-              $(".header").addClass("changed");
-            } else {
-              $(".header").removeClass("changed");
-            }
-          },
-        });
-
-        new WOW().init();
-        (function ($) {
-          $.fn.extend({
-            rotaterator: function (options) {
-              var defaults = {
-                fadeSpeed: 300,
-                pauseSpeed: 50,
-                child: null,
-              };
-
-              var options = $.extend(defaults, options);
-
-              return this.each(function () {
-                var o = options;
-                var obj = $(this);
-                var items = $(obj.children(), obj);
-                items.each(function () {
-                  $(this).hide();
-                });
-                if (!o.child) {
-                  var next = $(obj).children(":first");
-                } else {
-                  var next = o.child;
-                }
-                $(next).fadeIn(o.fadeSpeed, function () {
-                  $(next)
-                    .delay(o.pauseSpeed)
-                    .fadeOut(o.fadeSpeed, function () {
-                      var next = $(this).next();
-                      if (next.length == 0) {
-                        next = $(obj).children(":first");
-                      }
-                      $(obj).rotaterator({
-                        child: next,
-                        fadeSpeed: o.fadeSpeed,
-                        pauseSpeed: o.pauseSpeed,
-                      });
-                    });
-                });
-              });
-            },
-          });
-        })(jQuery);
-      });
+      // 페이지 로드 시 시간 자동 설정
+      window.onload = function () {
+        const timeSelector = document.getElementById("timeSelector");
+        if (timeSelector) {
+          const now = new Date();
+          const hours = String(now.getHours()).padStart(2, "0");
+          const minutes = String(now.getMinutes()).padStart(2, "0");
+          timeSelector.value = `${hours}:${minutes}`;
+        }
+      };
     </script>
+
+    <!-- 카카오맵 -->
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=272ab7f347e80686f11b3a6049ba2a49&libraries=services"
+    ></script>
+
+    <!-- 다음주소 -->
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   </head>
 
   <body>
-    <div class="header">
-      <div class="main-container">
-        <div class="header-content">
-          <div class="brand">
-            <a title="Around Me Today" target="" href="#">Around Me Today</a>
-          </div>
-          <div id="navbar">
-            <div class="nav-item">
-              <a title="FAQ" href="#" target="_blank">FAQ</a>
-            </div>
-            <div class="nav-item">
-              <a title="Usage" href="#usage">사용자가이드</a>
-            </div>
-            <div class="nav-item">
-              <a title="Get Started" href="#started">서비스 소개</a>
-            </div>
+    <nav>
+      <div class="logo">
+        <a href="index.html"
+          ><h3 style="line-height: inherit"><em>Today Around Me</em></h3></a
+        >
+      </div>
+      <div class="menu-icon">
+        <span></span>
+      </div>
+    </nav>
+
+    <div id="video-container">
+      <div class="video-overlay"></div>
+      <div class="video-content">
+        <div class="inner">
+          <!-- <h1>
+            <em>Welcome to</em>
+            <strong>Today Around Me</strong>
+          </h1> -->
+          <h1>
+            <strong>오늘 내 주변은</strong>
+          </h1>
+          <p>일상의 주변을 미리 읽다</p>
+          <p>당신의 오늘을 똑똑하게 만들어줄 단 하나의 서비스</p>
+          <div class="scroll-icon">
+            <a class="scrollTo" data-scrollTo="portfolio" href="#"
+              ><img src="img/scroll-icon.png" alt=""
+            /></a>
           </div>
         </div>
       </div>
+      <video autoplay loop muted>
+        <source src="highway-loop.mp4" type="video/mp4" />
+      </video>
     </div>
 
-    <div id="fullview">
-      <div id="hero" class="nav-transparent">
-        <div class="main-container">
-          <div class="hero-content">
-            <div class="hero-heading">
-              <div class="wow fadeInDown" data-wow-duration="3s">
-                <h1>
-                  <span>오늘</span>
-                  <span
-                    class="wow fadeIn"
-                    data-wow-delay="0.6s"
-                    data-wow-duration="3s"
-                    >내</span
-                  >
-                  <span
-                    class="wow fadeIn"
-                    data-wow-delay="1.2s"
-                    data-wow-duration="3s"
-                    >주변은
-                  </span>
-                </h1>
-              </div>
-              <br /><br />
-
-              <h4 style="font-weight: bold">일상의 주변을 미리 읽다</h4>
-              <h4 style="font-weight: bold">
-                당신의 오늘을 똑똑하게 만들어줄 단 하나의 서비스
-              </h4>
-            </div>
-            <div class="hero-buttons">
-              <a
-                title="Download"
-                class="btn"
-                target=""
-                href="#notice"
-                style="background-color: #ffb6c1; margin-top: 30px"
-                >서비스 출시 소식을 받아볼래요</a
-              >
-              <a
-                title="Github"
-                class="btn"
-                target="_blank"
-                href="https://github.com/ceaser501/MktDesign.git"
-                style="background-color: #ffef94"
-                >View On Github</a
-              >
-            </div>
+    <div class="full-screen-portfolio" id="portfolio">
+      <div class="container-fluid">
+        <!-- 1row, overview -->
+        <div class="col-md-4 col-sm-6">
+          <div class="portfolio-item">
+            <a href="img/Introduction/overview1.jpg" data-lightbox="image-1"
+              ><div class="thumb">
+                <div class="hover-effect">
+                  <div class="hover-content">
+                    <h1>ABOUT US <em>Overview</em></h1>
+                    <p>Discover our story and a new way to navigate</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <img
+                    class="portfolioSet"
+                    src="img/Introduction/overview1.jpg"
+                  />
+                </div></div
+            ></a>
           </div>
         </div>
-      </div>
-
-      <div id="more" class="nav-transparent">
-        <div class="main-container">
-          <div class="section-box">
-            <div class="section-content" style="height: 20%">
-              <div>
-                <h2 style="margin-bottom: 50px">내 주변의 오늘, 한눈에</h2>
-                <h4>
-                  한 번쯤 경험 한 갑작스러운
-                  <span style="color: #fa8072; font-weight: 900">공사</span>나
-                  <span style="color: #fa8072; font-weight: 900">사고</span>로
-                  인한 교통체증
-                </h4>
-                <h4>
-                  외출 전
-                  <span style="color: #fa8072; font-weight: 900">날씨 정보</span
-                  >부터 모임 전
-                  <span style="color: #fa8072; font-weight: 900">집회 정보</span
-                  >까지
-                </h4>
-                <h4 style="font-weight: bold">이 모든 것을 하나로!</h4>
-              </div>
-            </div>
-            <!-- <div>
-              <img
-                src="images/Introduction/computer.png"
-                alt="computer"
-                style="width: 300px; height: 300px"
-              />
-            </div> -->
-            <div style="margin-bottom: 30px">
-              <img
-                src="images/Introduction/serviceIntro.png"
-                alt="serviceInfo"
-                style="width: 625px"
-              />
-            </div>
+        <!-- 1row, user guide -->
+        <div class="col-md-4 col-sm-6">
+          <div class="portfolio-item">
+            <a href="img/Introduction/user_guide.jpg" data-lightbox="image-1"
+              ><div class="thumb">
+                <div class="hover-effect">
+                  <div class="hover-content">
+                    <h1>USER GUIDE <em>How It Works</em></h1>
+                    <p>Navigate smarter with real-time tips</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <img
+                    class="portfolioSet"
+                    src="img/Introduction/user_guide.jpg"
+                  />
+                </div></div
+            ></a>
           </div>
         </div>
-      </div>
-
-      <div id="started">
-        <div class="main-container">
-          <div class="section-box" style="min-width: 0">
-            <div class="section-content" style="margin: 30px 0 0 0">
-              <div class="section-content" style="margin-bottom: 0">
-                <p class="started-title-p" style="font-weight: bold">
-                  당신의 오늘을 똑똑하게 만들어 줄 단 하나의 서비스
-                  <!-- <span
-                    style="text-align: left; font-weight: bold; color: #fa8072"
-                    >오늘 내 주변은</span
-                  > -->
-                </p>
-              </div>
-              <h4>Be prepared, avoid delays, save your time!</h4>
-              <p class="started-subTitle1-p" style="text-align: left">
-                <span style="text-align: left; font-weight: bold"
-                  >오늘 내 주변은</span
-                >
-                <span class="normalText">당신의</span>
-                <span style="color: #fa8072; font-weight: bold">생활 반경</span
-                ><span class="normalText">에 특화된 정보만을</span>
-                <span style="color: #fa8072; font-weight: bold">한 눈</span
-                ><span class="normalText">에 제공합니다</span>
-              </p>
-              <p class="started-subTitle2-p" style="text-align: left">
-                <span style="text-align: left; font-weight: bold"
-                  >오늘 내 주변은</span
-                >
-                <span class="normalText">당신이 설정한 시간에</span>
-                <span style="color: #fa8072; font-weight: bold"
-                  >공사정보, 사고정보, 날씨정보, 집회정보</span
-                ><span class="normalText">를 수집하여 제공합니다</span>
-              </p>
-              <!-- <div>
-                <a
-                  class="btn btn-main"
-                  target="_blank"
-                  href="https://github.com/seeratawan01/fullview.js"
-                  title="Documentation"
-                  >Official Documentation</a
-                >
-                <a
-                  class="btn btn-sec"
-                  target="_blank"
-                  href="https://github.com/seeratawan01/fullview.js/issues"
-                  >Report Issue</a
-                >
-              </div> -->
-            </div>
-            <div style="margin-bottom: 30px; margin-left: 10%">
-              <img
-                src="images/Introduction/serviceInfo.png"
-                alt="serviceInfo"
-                style="width: 625px"
-              />
-            </div>
-
-            <!-- <div class="row">
-              <div class="column-large-6">
-                <pre
-                  class="html"
-                ><code><span class="code-tag">code sample</span></code></pre>
-              </div>
-            </div> -->
-          </div>
-        </div>
-      </div>
-
-      <section id="usage" class="features section">
-        <div class="container main-container">
-          <div class="section-box" style="min-width: 0">
-            <div class="section-content" style="margin: 30px 0 0 0">
-              <h2>사용자 가이드</h2>
-
-              <div class="row grid">
-                <div>
-                  <!-- Start Single Feature -->
-                  <div class="single-feature wow fadeInUp" data-wow-delay=".4s">
-                    <img
-                      class="usage-image"
-                      src="images/Introduction/location.png"
-                      alt="location"
-                    />
-                    <h3>1. 사용자 활동 반경을 설정하세요</h3>
+        <!-- 1row, features -->
+        <div class="col-md-4 col-sm-6">
+          <div class="portfolio-item">
+            <div onclick="openMapPopup()" data-lightbox="image-1">
+              <div class="thumb">
+                <div class="hover-effect">
+                  <div class="hover-content">
+                    <h1>PROTOTYPE <em>LIVE DEMO</em></h1>
                     <p>
-                      내가 생활하는 지역 또는 경로를 설정하면 <br />활동 반경 내
-                      정보만을 선별하여 제공합니다
+                      Test-drive our prototype and experience the difference
                     </p>
                   </div>
                 </div>
-                <div>
-                  <!-- Start Single Feature -->
-                  <div class="single-feature wow fadeInUp" data-wow-delay=".4s">
-                    <img
-                      class="usage-image"
-                      src="images/Introduction/alarm.png"
-                      alt="alarm"
-                    />
-                    <h3>2. 알림을 원하는 시간을 설정하세요</h3>
-                    <p>
-                      내가 설정한 시간에 최신화 된 데이터로 <br />
-                      알림을 제공합니다
-                    </p>
-                  </div>
-                </div>
-                <div>
-                  <!-- Start Single Feature -->
-                  <div class="single-feature wow fadeInUp" data-wow-delay=".4s">
-                    <img
-                      class="usage-image"
-                      src="images/Introduction/information.png"
-                      alt="information"
-                    />
-                    <h3>3. 서비스 종류를 선택하세요</h3>
-                    <p>
-                      4가지 [공사정보, 사고정보, 날씨정보, 집회정보] 중 <br />
-                      원하는 서비스만 구독하여 경제적으로 이용하세요!
-                    </p>
-                  </div>
+                <div class="image">
+                  <img
+                    class="portfolioSet"
+                    src="img/Introduction/prototype.jpg"
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
 
-      <div id="notice">
-        <div class="main-container">
-          <div class="section-box2" style="margin-top: 50px">
-            <div class="section-content">
-              <div>
-                <h2 style="font-weight: bold">오늘 내 주변은</h2>
-                <h3 style="font-weight: bold">
-                  서비스가 출시될 때 가장 먼저 알려드릴게요!
-                </h3>
+        <!-- prototype inner popup -->
+        <div id="mapPopup">
+          <!-- 기존경로/재탐색 경로 범례 -->
+          <div id="legend" style="display: none">
+            <div class="legend-item">
+              <span class="legend-line legend-red"></span> 기존 경로
+            </div>
+            <div class="legend-item">
+              <span class="legend-line legend-blue"></span> 재탐색 경로
+            </div>
+          </div>
+
+          <div style="display: flex; height: 100%">
+            <!-- 왼쪽: Kakao Map -->
+            <div id="popupMapContainer">
+              <!-- 지도 우측 하단에 확대 및 축소 버튼 추가 -->
+              <div id="zoomInOutDiv">
+                <button id="zoomInBtn" onclick="zoomIn()">+</button>
+                <button id="zoomOutBtn" onclick="zoomOut()">-</button>
               </div>
             </div>
-            <div>
-              <p>✔︎ e-mail 주소는 저장되지 않으며, 발송 되지 않습니다</p>
-              <p>✔︎ 작성자를 식별할 없으며, 개인정보는 저장되지 않습니다</p>
-              <p>✔︎ 서비스에 대한 피드백 또는 개선점을 작성 해 주세요</p>
+
+            <!-- 오른쪽: 사용자 필터 -->
+            <div id="filterArea">
+              <h3 style="margin-bottom: 20px">필터 옵션</h3>
+
+              <!-- 시간 선택 -->
+              <label for="timeSelector"><strong>1. 시간 선택:</strong></label>
               <input
-                id="submit-email"
-                type="email"
-                name="email"
-                placeholder="Email을 입력 해 주세요. 서비스 출시 소식을 알려드릴게요!"
-                aria-label="Email address"
-                autocomplete="email"
-                required
+                type="time"
+                id="timeSelector"
+                style="width: 100%; margin-bottom: 10px"
               />
-              <textarea
-                id="submit-advice"
-                name="bio"
-                cols="40"
-                rows="5"
-                placeholder="서비스에 대한 자유로운 의견을 남겨주세요."
-                aria-label="Professional short bio"
-              ></textarea>
-              <button
-                type="button"
-                onclick="submitAction()"
-                style="margin-left: 35%"
+
+              <!-- 출발지 주소 -->
+              <label for="startAddress" class="optionTitle"
+                ><strong>2. 출발지 주소:</strong>
+                <div style="float: right">
+                  <img
+                    id="swapImg"
+                    src="img/Introduction/switch_arrow.png"
+                    alt="전환"
+                  />
+                  <button
+                    type="button"
+                    id="swapButton"
+                    onclick="swapAddresses()"
+                  >
+                    전환
+                  </button>
+                </div>
+              </label>
+
+              <div style="display: flex; gap: 10px; margin-bottom: 10px">
+                <input
+                  type="text"
+                  id="startAddress"
+                  placeholder="출발지 주소를 입력하세요"
+                  value="서울 영등포구 영등포동5가 82-1 (리첸스타)"
+                  style="flex: 1"
+                  readonly
+                />
+                <button type="button" onclick="openDaumPostcode('start')">
+                  검색
+                </button>
+              </div>
+
+              <!-- 도착지 주소 -->
+              <label for="endAddress" class="optionTitle"
+                ><strong>3. 목적지 주소:</strong></label
               >
-                서비스 출시 소식을 받아볼래요!
-              </button>
+              <div style="display: flex; gap: 10px; margin-bottom: 10px">
+                <input
+                  type="text"
+                  id="endAddress"
+                  placeholder="목적지 주소를 입력하세요"
+                  style="flex: 1"
+                  value="서울 영등포구 63로 50 (63한화생명빌딩)"
+                  readonly
+                />
+                <button type="button" onclick="openDaumPostcode('end')">
+                  검색
+                </button>
+              </div>
+
+              <!-- 경로 추천 유형 -->
+              <!-- 경로 추천 유형 -->
+              <label class="optionTitle"
+                ><strong>4. 경로 추천 유형:</strong></label
+              >
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 12px;
+                  margin-bottom: 10px;
+                  align-items: center;
+                "
+              >
+                <label style="display: flex; align-items: center; gap: 5px">
+                  <input type="radio" name="routeOption" value="0" checked />
+                  TMap 추천
+                </label>
+                <label style="display: flex; align-items: center; gap: 5px">
+                  <input type="radio" name="routeOption" value="1" />
+                  최소 시간
+                </label>
+                <label style="display: flex; align-items: center; gap: 5px">
+                  <input type="radio" name="routeOption" value="2" />
+                  최소 거리
+                </label>
+                <label style="display: flex; align-items: center; gap: 5px">
+                  <input type="radio" name="routeOption" value="3" />
+                  무료 도로 우선
+                </label>
+                <label style="display: flex; align-items: center; gap: 5px">
+                  <input type="radio" name="routeOption" value="4" />
+                  자동차 전용 도로 제외
+                </label>
+              </div>
+
+              <!-- 체크박스 카테고리 -->
+              <label class="optionTitle2"
+                ><strong>5. 이벤트 유형:</strong></label
+              >
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 10px;
+                  margin-bottom: 10px;
+                "
+              >
+                <label
+                  style="
+                    width: 48%;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    class="eventFilter"
+                    value="공사"
+                    checked
+                  />
+                  <img
+                    src="img/Introduction/cor_marker.png"
+                    alt="공사"
+                    style="width: 20px; height: 20px"
+                  />
+                  공사
+                </label>
+                <label
+                  style="
+                    width: 48%;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    class="eventFilter"
+                    value="교통사고"
+                    checked
+                  />
+                  <img
+                    src="img/Introduction/acc_marker.png"
+                    alt="교통사고"
+                    style="width: 20px; height: 20px"
+                  />
+                  교통사고
+                </label>
+                <label
+                  style="
+                    width: 48%;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    class="eventFilter"
+                    value="기상"
+                    checked
+                  />
+                  <img
+                    src="img/Introduction/wea_marker.png"
+                    alt="기상"
+                    style="width: 20px; height: 20px"
+                  />
+                  기상
+                </label>
+                <label
+                  style="
+                    width: 48%;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    class="eventFilter"
+                    value="기타돌발"
+                    checked
+                  />
+                  <img
+                    src="img/Introduction/emergency_marker.png"
+                    alt="기타돌발"
+                    style="width: 20px; height: 20px"
+                  />
+                  차량증가 정체
+                </label>
+                <label
+                  style="
+                    width: 48%;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    class="eventFilter"
+                    value="재난"
+                    checked
+                  />
+                  <img
+                    src="img/Introduction/disaster_marker.png"
+                    alt="재난"
+                    style="width: 20px; height: 20px"
+                  />
+                  재난
+                </label>
+                <label
+                  style="
+                    width: 48%;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    class="eventFilter"
+                    value="기타"
+                    checked
+                  />
+                  <img
+                    src="img/Introduction/default_marker.png"
+                    alt="기타"
+                    style="width: 20px; height: 20px"
+                  />
+                  기타
+                </label>
+              </div>
+
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  gap: 10px;
+                  margin-top: 20px;
+                "
+              >
+                <!-- 초기화 버튼 -->
+                <button
+                  id="prototype_reset_btn"
+                  class="prototype_common_btn"
+                  onclick="resetFilters()"
+                  style="
+                    margin: 10px 0px 16px 0px;
+                    height: 50px;
+                    width: 80px !important;
+                  "
+                >
+                  초기화
+                </button>
+
+                <!-- 필터 적용 버튼 -->
+                <button
+                  type="button"
+                  onclick="applyFilters()"
+                  style="flex: 1; margin-top: 10px"
+                >
+                  필터 적용
+                </button>
+              </div>
             </div>
-            <div
-              class="division-line"
-              style="border-top: 1px solid #4f4f4f; margin: 30px 0px 20px 0px"
-            ></div>
-            <p style="text-align: center; color: #4f4f4f">
-              Copyright © 2024 Master’s Program in the College of Engineering,
-              Yonsei University, Taesu Kim All rights reserved.
-            </p>
+          </div>
+          <button
+            id="prototype_close_btn"
+            class="prototype_common_btn"
+            onclick="closeMapPopup()"
+          >
+            닫기
+          </button>
+          <button
+            id="prototype_my_location_btn"
+            class="prototype_common_btn"
+            onclick="goToMyLocation()"
+          >
+            내 위치로
+          </button>
+        </div>
+
+        <!-- 2row, Feedback -->
+        <div class="col-md-4 col-sm-6">
+          <div class="portfolio-item">
+            <a href="img/Introduction/feedback2.jpg" data-lightbox="image-1"
+              ><div class="thumb">
+                <div class="hover-effect">
+                  <div class="hover-content">
+                    <h1>Insights <em>Feedback</em></h1>
+                    <p>See what users love about us</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <img
+                    class="portfolioSet"
+                    src="img/Introduction/feedback2.jpg"
+                  />
+                </div></div
+            ></a>
+          </div>
+        </div>
+        <!-- 2row, pricing -->
+        <div class="col-md-4 col-sm-6">
+          <div class="portfolio-item">
+            <a href="img/Introduction/pricing_plan.jpg" data-lightbox="image-1"
+              ><div class="thumb">
+                <div class="hover-effect">
+                  <div class="hover-content">
+                    <h1>PRICING <em>PLANS</em></h1>
+                    <p>Smart pricing for better commutes</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <img
+                    class="portfolioSet"
+                    src="img/Introduction/pricing_plan.jpg"
+                  />
+                </div></div
+            ></a>
+          </div>
+        </div>
+        <!-- 2row, faq -->
+        <div class="col-md-4 col-sm-6">
+          <div class="portfolio-item">
+            <a href="img/Introduction/faq.jpg" data-lightbox="image-1"
+              ><div class="thumb">
+                <div class="hover-effect">
+                  <div class="hover-content">
+                    <h1>FAQ <em>ANSWERS</em></h1>
+                    <p>Answers to your most common questions.</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <img class="portfolioSet" src="img/Introduction/faq.jpg" />
+                </div></div
+            ></a>
           </div>
         </div>
       </div>
     </div>
+
+    <footer>
+      <div class="container-fluid">
+        <div class="col-md-12">
+          <p>
+            Copyright © 2024 Master’s Program in the College of Engineering,
+            Yonsei University, Taesu Kim All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Modal button -->
+    <div class="popup-icon">
+      <button id="modBtn" class="modal-btn">
+        <img
+          src="img/contact-icon.png"
+          alt=""
+          style="max-width: none !important"
+        />
+      </button>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <!-- Modal Content -->
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h3 class="header-title">오늘 내 주변은</h3>
+          <h4>
+            <em style="color: #ffff"
+              >서비스가 출시될 때 가장 먼저 알려드릴게요!</em
+            >
+          </h4>
+          <div class="close-btn">
+            <img src="img/close_contact.png" alt="" />
+          </div>
+        </div>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="col-md-6 col-md-offset-3">
+            <form id="contact" action="" method="post">
+              <div class="row">
+                <div class="col-md-12">
+                  <fieldset>
+                    <input
+                      id="submit-email"
+                      type="email"
+                      name="email"
+                      class="form-control"
+                      placeholder="Email을 입력 해 주세요. 서비스 출시 소식을 알려드릴게요!"
+                      aria-label="Email address"
+                      autocomplete="email"
+                      required
+                    />
+                  </fieldset>
+                </div>
+                <div class="col-md-12">
+                  <fieldset>
+                    <textarea
+                      id="submit-advice"
+                      name="message"
+                      rows="6"
+                      class="form-control"
+                      id="message"
+                      placeholder="서비스에 대한 자유로운 의견을 남겨주세요."
+                      required
+                    ></textarea>
+                  </fieldset>
+                </div>
+                <div class="col-md-12">
+                  <fieldset>
+                    <button type="button" onclick="submitAction()" class="btn">
+                      <em>서비스 출시 소식을 받아볼래요!</em>
+                    </button>
+                  </fieldset>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="overlay-menu">
+      <div class="container">
+        <div class="row">
+          <div class="main-menu">
+            <ul>
+              <li>
+                <a href="index.html">Home - Full-width</a>
+              </li>
+              <li>
+                <a href="masonry.html">Home - Masonry</a>
+              </li>
+              <li>
+                <a href="grid.html">Home - Small-width</a>
+              </li>
+              <li>
+                <a href="about.html">About Us</a>
+              </li>
+              <li>
+                <a href="blog.html">Blog Entries</a>
+              </li>
+              <li>
+                <a href="single-post.html">Single Post</a>
+              </li>
+            </ul>
+            <p>We create awesome templates for you.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>
+      window.jQuery ||
+        document.write(
+          '<script src="js/vendor/jquery-1.11.2.min.js"><\/script>'
+        );
+    </script> -->
+
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+      // 팝업 창 숨기기
+      function closeMapPopup() {
+        document.getElementById("mapPopup").style.display = "none";
+        document.getElementById("legend").style.display = "none"; // 범례 숨기기
+      }
+
+      let map; // Kakao Map instance
+      let markers = []; // Array to store markers
+
+      // 팝업 창 보이기
+      function openMapPopup() {
+        document.getElementById("mapPopup").style.display = "block";
+        document.getElementById("legend").style.display = "block"; // 범례 표시
+
+        // HTML5 Geolocation API를 사용해 현재 위치 가져오기
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              const latitude = position.coords.latitude; // 위도
+              const longitude = position.coords.longitude; // 경도
+              const radius = 4.5; // 반경 (약 500km)
+
+              // 지도 생성
+              const mapContainer = document.getElementById("popupMapContainer");
+              const mapOption = {
+                center: new kakao.maps.LatLng(latitude, longitude), // 현재 위치를 중심으로 설정
+                level: 5, // 초기 줌 레벨
+              };
+
+              map = new kakao.maps.Map(mapContainer, mapOption);
+
+              // 경계 계산
+              const minY = latitude - radius;
+              const maxY = latitude + radius;
+              const minX = longitude - radius;
+              const maxX = longitude + radius;
+
+              // 내 위치 마커 이미지의 주소
+              const myLocationImageSrc = "img/Introduction/here2.png"; // 빨간색 마커 이미지
+
+              const myLocationImageSize = new kakao.maps.Size(42, 42); // 마커 이미지 크기
+              const myLocationMarkerImage = new kakao.maps.MarkerImage(
+                myLocationImageSrc,
+                myLocationImageSize
+              );
+
+              // 내 위치에 마커 추가 (깜빡임 구현)
+              const myLocationMarker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(latitude, longitude),
+                title: "내 위치",
+                image: myLocationMarkerImage,
+              });
+
+              // 깜빡임 효과 추가
+              let isVisible = true; // 마커가 보이는지 여부
+              setInterval(() => {
+                if (isVisible) {
+                  myLocationMarker.setMap(null); // 마커 숨기기
+                } else {
+                  myLocationMarker.setMap(map); // 마커 보이기
+                }
+                isVisible = !isVisible; // 상태 토글
+              }, 500); // 500ms (0.5초) 간격으로 깜빡임
+
+              // 국토부 API 호출
+              axios
+                .get("https://openapi.its.go.kr:9443/eventInfo", {
+                  params: {
+                    apiKey: "2f40d641aba245f1affbba6bd7df44d6",
+                    type: "all",
+                    eventType: "all",
+                    minX: minX,
+                    minY: minY,
+                    maxX: maxX,
+                    maxY: maxY,
+                    getType: "json",
+                  },
+                })
+                .then((response) => {
+                  // 기존 마커 삭제
+                  markers.forEach(({ marker }) => {
+                    if (marker) marker.setMap(null); // 지도에서 모든 마커를 제거
+                  });
+                  // 새로운 마커 데이터 추가
+                  markers = [];
+                  const events = response.data.body?.items || []; // 올바른 경로로 수정
+
+                  if (events.length === 0) {
+                    console.log("No events found");
+                    return;
+                  }
+
+                  // 마커 색상별 이미지 경로 정의
+
+                  // API 데이터를 기반으로 마커 생성
+                  // 이벤트유형(교통사고 / 공사 / 기상 / 재난 / 기타돌발 / 기타)
+                  events.forEach((event) => {
+                    let imageSrc = "";
+                    switch (event.eventType) {
+                      case "공사":
+                        imageSrc = "img/Introduction/cor_marker.png";
+                        break;
+                      case "교통사고":
+                        imageSrc = "img/Introduction/acc_marker.png";
+                        break;
+                      case "기상":
+                        imageSrc = "img/Introduction/wea_marker.png";
+                        break;
+                      case "기타돌발":
+                        imageSrc = "img/Introduction/emergency_marker.png";
+                        break;
+                      case "재난":
+                        imageSrc = "img/Introduction/disaster_marker.png";
+                        break;
+                      default:
+                        imageSrc = "img/Introduction/default_marker.png";
+                        break;
+                    }
+
+                    const eventLat = parseFloat(event.coordY);
+                    const eventLng = parseFloat(event.coordX);
+
+                    const imageSize = new kakao.maps.Size(32, 35); // 마커 이미지 크기
+                    const markerImage = new kakao.maps.MarkerImage(
+                      imageSrc,
+                      imageSize
+                    );
+
+                    const marker = new kakao.maps.Marker({
+                      map: map,
+                      position: new kakao.maps.LatLng(eventLat, eventLng),
+                      title: event.message, // 이벤트 상세정보를 타이틀로 사용
+                      image: markerImage, // 마커 이미지 설정
+                    });
+
+                    // Store marker with its type
+                    markers.push({ marker, type: event.eventType.trim() });
+
+                    // 마커에 클릭 이벤트 추가
+                    const formattedMessage = formatMessage(event.message); // 메시지 포맷팅
+
+                    // const infowindow = new kakao.maps.InfoWindow({
+                    //   content: `<div style="padding:5px; line-height:1.5; white-space: pre-wrap; color:black;">${formattedMessage}</div>`,
+                    // });
+                    const infowindow = new kakao.maps.InfoWindow({
+                      content: `
+                            <div style="
+                              text-align: left;
+                              margin: 0;
+                              padding: 10px;
+                              line-height: 1.4;
+                              background-color: #fff;
+                              border-radius: 5px;
+                              width: auto; /* 가로 크기 */
+                              height: auto; /* 높이는 자동 조정 */
+                              color:black;
+                              overflow: hidden; /* 넘치는 텍스트를 숨김 */
+                              word-break: break-word; /* 텍스트 줄바꿈 */
+                            ">
+                              ${formattedMessage}
+                            </div>
+                          `,
+                      removable: true, // 닫기 버튼 추가
+                    });
+
+                    // const infowindow = new kakao.maps.InfoWindow({
+                    //   content: `<div style="padding:5px; color:black;">${event.message}</div>`,
+                    // });
+
+                    kakao.maps.event.addListener(marker, "click", () =>
+                      infowindow.open(map, marker)
+                    );
+                  });
+                })
+                .catch((error) => {
+                  console.error("Error fetching data:", error);
+                  alert("데이터를 불러오지 못했습니다.");
+                });
+            },
+            function (error) {
+              console.error("Error getting location:", error);
+              alert("위치를 가져올 수 없습니다.");
+            }
+          );
+        } else {
+          alert("Geolocation을 지원하지 않는 브라우저입니다.");
+        }
+      }
+
+      // 줄바꿈과 강조를 적용한 메시지 포맷터 함수
+      function formatMessage(message) {
+        return `
+              <div style="text-align: left; margin: 0; padding: 10px; line-height: 1.4; background-color: #fff;">
+                ${message
+                  .replace(/^\s*<</g, "<<") // << 앞의 공백 제거
+                  .replace(/\//g, "<br>") // '/' 뒤에 줄바꿈 추가
+                  .replace(/<(.*?)>/g, "<strong><$1></strong>") // <공사> 같은 항목 일반 텍스트 강조
+                  .replace(/장소:/g, "<strong>장소:</strong>") // '장소:' 강조
+                  .replace(/작업시간:/g, "<strong>작업시간:</strong>") // '작업시간:' 강조
+                  .replace(/부분통제/g, "<strong>부분통제</strong>")}
+              </div>
+            `;
+      }
+
+      // 검색 필터 적용 함수
+      async function applyFilters() {
+        const startAddress = document.getElementById("startAddress").value;
+        const endAddress = document.getElementById("endAddress").value;
+
+        console.log("Start Address:", startAddress);
+        console.log("End Address:", endAddress);
+
+        //출발지와 도착지 중 하나만 입력된 경우 경고창 표시
+        if ((startAddress && !endAddress) || (!startAddress && endAddress)) {
+          alert("출발지와 도착지 주소를 입력하세요.");
+          return;
+        }
+
+        // 경로 추천 유형 선택
+        const selectedRouteOption = document.querySelector(
+          'input[name="routeOption"]:checked'
+        ).value;
+
+        // 이벤트 유형 선택
+        const selectedTypes = Array.from(
+          document.querySelectorAll(".eventFilter:checked")
+        ).map((cb) => cb.value.trim());
+
+        console.log("선택된 이벤트 유형:", selectedTypes);
+
+        try {
+          let startCoords = null;
+          let endCoords = null;
+
+          // 출발지와 도착지 좌표 변환
+          if (startAddress) {
+            startCoords = await addressToCoordinates(startAddress);
+            if (!(startCoords instanceof kakao.maps.LatLng)) {
+              console.error("startCoords is not a LatLng object:", startCoords);
+              throw new Error("startCoords is not a LatLng object");
+            }
+          }
+          if (endAddress) {
+            endCoords = await addressToCoordinates(endAddress);
+            if (!(endCoords instanceof kakao.maps.LatLng)) {
+              console.error("endCoords is not a LatLng object:", endCoords);
+              throw new Error("endCoords is not a LatLng object");
+            }
+          }
+
+          console.log("Start Coordinates:", startCoords);
+          console.log("End Coordinates:", endCoords);
+
+          // 지도 초기화
+          clearRoutes(); // 기존 경로와 마커 초기화
+          console.log("//수정: 기존 경로와 마커 초기화 완료");
+
+          // 지도에 선을 그리고 중심 설정
+          if (startCoords && endCoords) {
+            setMapBounds(startCoords, endCoords);
+          }
+
+          // 출발지와 도착지가 모두 입력되지 않은 경우, 이벤트 유형으로만 필터 적용
+          //   if (!startAddress && !endAddress) {
+          //     console.log(
+          //       "No start or end address provided. Applying event filters only."
+          //     );
+
+          //     return; // 이벤트 유형 필터만 적용 후 종료
+          //   }
+
+          // 이벤트 유형에 따라 마커 표시/숨기기
+          markers.forEach(({ marker, type, coords }) => {
+            if (!marker || !type) {
+              console.error("Invalid marker or type in markers array", {
+                marker,
+                type,
+              });
+              return;
+            }
+
+            // 선택된 유형에 포함되면 보이고, 아니면 숨기기
+            if (selectedTypes.includes(type.trim())) {
+              marker.setMap(map); // Marker를 보이게 설정
+            } else {
+              marker.setMap(null); // Marker를 숨김
+            }
+          });
+
+          //   if (!startCoords || !endCoords) {
+          //     alert("출발지와 도착지의 좌표를 가져올 수 없습니다.");
+          //     return;
+          //   }
+
+          // 출발지와 도착지가 모두 있을 때 경로 그리기
+          if (startCoords && endCoords) {
+            // TMap API 호출
+            // TMAP 경로 데이터를 요청하여 지도에 경로 표시
+            const routeData = await getRouteData(
+              startCoords,
+              endCoords,
+              selectedRouteOption
+            );
+
+            console.log("//수정: 새로운 경로 데이터 호출 완료", routeData);
+
+            if (!routeData || routeData.length === 0) {
+              alert("유효한 경로 데이터를 찾을 수 없습니다.");
+              return;
+            }
+
+            if (routeData) {
+              drawRoute(routeData); // 실제 경로를 기반으로 폴리라인 그리기
+              console.log("//수정: 새로운 경로를 지도에 반영 완료");
+
+              // 경로와 마커의 거리 확인 및 재탐색 여부 결정
+              const rerouteRequired = checkMarkersProximity(routeData);
+
+              if (rerouteRequired) {
+                console.log("경로 상 마커가 감지되었습니다. 재탐색 시작");
+                await rerouteAvoidingMarkers(routeData); // 마커를 회피하는 경로 재탐색
+              }
+            }
+          } else {
+            //alert("출발지와 도착지 좌표를 가져올 수 없습니다.");
+          }
+        } catch (error) {
+          console.error("Error applying filters:", error);
+          alert(
+            "필터 적용 중 문제가 발생했습니다. 주소를 확인하거나 다시 시도해주세요."
+          );
+        }
+      }
+
+      // 다음 지도 주소 검색 팝업 열기
+      function openDaumPostcode(type) {
+        new daum.Postcode({
+          oncomplete: function (data) {
+            // 팝업에서 선택한 주소를 가져옵니다.
+            const fullAddress = data.address; // 도로명 주소
+            const extraAddress = data.buildingName
+              ? ` (${data.buildingName})`
+              : ""; // 추가 주소 정보
+
+            if (type === "start") {
+              // 출발지 주소 설정
+              document.getElementById("startAddress").value =
+                fullAddress + extraAddress;
+            } else if (type === "end") {
+              // 도착지 주소 설정
+              document.getElementById("endAddress").value =
+                fullAddress + extraAddress;
+            }
+          },
+        }).open();
+      }
+
+      // 주소를 좌표로 변환하는 함수
+      function addressToCoordinates(address) {
+        return new Promise((resolve, reject) => {
+          const geocoder = new kakao.maps.services.Geocoder();
+          geocoder.addressSearch(address, (result, status) => {
+            if (status === kakao.maps.services.Status.OK) {
+              console.log("Geocoding Result:", result);
+              const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+              console.log("Created LatLng Object:", coords);
+              resolve(coords);
+            } else {
+              reject(new Error("주소 변환 실패"));
+            }
+          });
+        });
+      }
+
+      // 지도에 출발지와 도착지를 연결하는 선 그리기
+      function drawRoute(routeData, isRerouted = false) {
+        //수정: 경로를 저장하는 전역 배열 추가
+        if (!window.routePolylines) {
+          window.routePolylines = [];
+        }
+        //수정: 폴리라인 색상 설정
+        const strokeColor = isRerouted ? "#0000FF" : "#FF0000"; // 파란색(재탐색), 빨간색(기존 경로)
+        const strokeWeight = isRerouted ? 4 : 5; // 점선(파란색)은 두께를 4으로 줄임, 실선(빨간색)은 기본 5
+        const strokeStyle = isRerouted ? "shortdash" : "solid"; // 점선(파란색) vs 실선(빨간색)
+
+        // if (window.routePolyline) {
+        //   window.routePolyline.setMap(null); // 기존 폴리라인 제거
+        // }
+
+        // if (window.startMarker) {
+        //   window.startMarker.setMap(null); // 기존 출발지 마커 제거
+        // }
+
+        // if (window.endMarker) {
+        //   window.endMarker.setMap(null); // 기존 도착지 마커 제거
+        // }
+
+        // 경로 데이터에서 좌표 추출
+        const linePath = routeData
+          .filter((feature) => feature.geometry.type === "LineString")
+          .flatMap((feature) =>
+            feature.geometry.coordinates.map(
+              ([lng, lat]) => new kakao.maps.LatLng(lat, lng)
+            )
+          );
+
+        // 출발지 및 도착지 좌표 추출
+        const startPoint = routeData.find(
+          (feature) =>
+            feature.geometry.type === "Point" &&
+            feature.properties.pointType === "S"
+        );
+        const endPoint = routeData.find(
+          (feature) =>
+            feature.geometry.type === "Point" &&
+            feature.properties.pointType === "E"
+        );
+
+        if (startPoint) {
+          const startCoords = new kakao.maps.LatLng(
+            startPoint.geometry.coordinates[1],
+            startPoint.geometry.coordinates[0]
+          );
+
+          // 출발지 마커 추가
+          window.startMarker = new kakao.maps.Marker({
+            map: map,
+            position: startCoords,
+            title: "출발지",
+            image: new kakao.maps.MarkerImage(
+              "img/Introduction/start_marker.png", // 출발지 마커 이미지 경로
+              new kakao.maps.Size(40, 40)
+            ),
+          });
+        }
+
+        if (endPoint) {
+          const endCoords = new kakao.maps.LatLng(
+            endPoint.geometry.coordinates[1],
+            endPoint.geometry.coordinates[0]
+          );
+
+          // 도착지 마커 추가
+          window.endMarker = new kakao.maps.Marker({
+            map: map,
+            position: endCoords,
+            title: "도착지",
+            image: new kakao.maps.MarkerImage(
+              "img/Introduction/end_marker.png", // 도착지 마커 이미지 경로
+              new kakao.maps.Size(40, 40)
+            ),
+          });
+        }
+
+        // 기존 경로와 재탐색 경로가 동일한 경우 => 기존 경로만 표시
+        if (isRerouted && window.originalRoute) {
+          const arePathsEqual = comparePaths(window.originalRoute, linePath);
+          if (arePathsEqual) {
+            alert(
+              "재탐색 경로가 기존 경로와 동일합니다. 기존 경로만 표시합니다."
+            );
+            return; // 동일한 경로일 경우 재탐색 경로 그리지 않음
+          }
+        }
+
+        if (!isRerouted) {
+          // 기존 경로 저장
+          window.originalRoute = linePath;
+        }
+
+        // 폴리라인 생성 및 지도에 추가
+        const polyline = new kakao.maps.Polyline({
+          path: linePath, // 경로 좌표
+          strokeWeight: strokeWeight, // 선 두께
+          strokeColor: strokeColor, // 선 색상
+          strokeOpacity: 0.7, // 선 투명도
+          strokeStyle: strokeStyle, // 선 스타일
+        });
+
+        polyline.setMap(map);
+        //수정: 생성된 폴리라인을 전역 배열에 저장
+        window.routePolylines.push(polyline);
+
+        // 지도 중심을 경로 중심으로 이동
+        const bounds = new kakao.maps.LatLngBounds();
+        linePath.forEach((coord) => bounds.extend(coord));
+        map.setBounds(bounds);
+      }
+
+      // 지도 중심과 범위를 설정
+      function setMapBounds(startCoords, endCoords) {
+        const bounds = new kakao.maps.LatLngBounds();
+        bounds.extend(startCoords);
+        bounds.extend(endCoords);
+        map.setBounds(bounds);
+      }
+
+      // 마커가 출발지와 도착지 경계 내에 있는지 확인
+      function isWithinBounds(coords, startCoords, endCoords) {
+        if (!coords) {
+          console.error("Invalid coordinates", coords);
+          return false;
+        }
+
+        const bounds = map.getBounds(); // 현재 지도 범위
+        const withinBounds = bounds.contain(coords); // 범위 내에 포함 여부 확인
+        return withinBounds;
+      }
+
+      // TMAP 경로 데이터를 요청하는 함수
+      async function getRouteData(startCoords, endCoords, searchOption) {
+        try {
+          const response = await axios.get(
+            "https://apis.openapi.sk.com/tmap/routes?version=1&format=json", // 자동차경로
+            {
+              headers: {
+                appKey: "iUKW1tR2qF4aS475E9Smh1b9stnPEeTe1lQFsxpH",
+              },
+              params: {
+                startX: startCoords.getLng(),
+                startY: startCoords.getLat(),
+                endX: endCoords.getLng(),
+                endY: endCoords.getLat(),
+                reqCoordType: "WGS84GEO",
+                resCoordType: "WGS84GEO",
+                searchOption: searchOption, // 경로 추천 유형
+                startName: "출발지",
+                endName: "도착지",
+              },
+            }
+          );
+
+          console.log("TMAP Route Data Response:", response.data);
+
+          // features 배열 반환
+          if (Array.isArray(response.data.features)) {
+            return response.data.features;
+          } else {
+            console.error("Invalid route data format:", response.data);
+            return [];
+          }
+        } catch (error) {
+          if (error.response) {
+            // 서버가 에러 응답을 반환한 경우
+            console.error("API Response Error:", error.response.data);
+            console.error("HTTP Status Code:", error.response.status);
+          } else if (error.request) {
+            // 요청이 전송되었지만 응답이 없는 경우
+            console.error("No Response Received:", error.request);
+          } else {
+            // 요청 설정 중 에러 발생
+            console.error("Request Setup Error:", error.message);
+          }
+          return null;
+        }
+      }
+
+      // 초기화 기능: 필터를 초기 상태로 복원
+      function resetFilters() {
+        // 출발지와 도착지 주소 초기화
+        document.getElementById("startAddress").value = "";
+        document.getElementById("endAddress").value = "";
+
+        // 경로 추천 유형을 'TMap 추천'으로 설정
+        document.querySelector(
+          'input[name="routeOption"][value="0"]'
+        ).checked = true;
+
+        // 이벤트 유형 모두 선택 상태로 복원
+        document.querySelectorAll(".eventFilter").forEach((checkbox) => {
+          checkbox.checked = true;
+        });
+
+        // 로그 출력 및 알림
+        console.log("필터 초기화 완료");
+        alert("필터가 초기화되었습니다.");
+      }
+
+      // 내 위치로 기능: 현재 위치를 중심으로 지도 이동
+      function goToMyLocation() {
+        if (!navigator.geolocation) {
+          alert("Geolocation이 지원되지 않는 브라우저입니다.");
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            const latitude = position.coords.latitude; // 위도
+            const longitude = position.coords.longitude; // 경도
+
+            // 지도 중심을 현재 위치로 이동
+            const currentLocation = new kakao.maps.LatLng(latitude, longitude);
+            map.setCenter(currentLocation);
+
+            // 지도 줌 레벨 설정 (초기 팝업 줌 레벨과 동일하게 설정)
+            map.setLevel(5);
+
+            // 현재 위치 마커 설정
+            const myLocationImageSrc = "img/Introduction/here2.png"; // 빨간 마커 이미지
+            const myLocationImageSize = new kakao.maps.Size(42, 42); // 마커 이미지 크기
+            const myLocationMarkerImage = new kakao.maps.MarkerImage(
+              myLocationImageSrc,
+              myLocationImageSize
+            );
+
+            const myLocationMarker = new kakao.maps.Marker({
+              position: currentLocation,
+              title: "내 위치",
+              image: myLocationMarkerImage,
+            });
+
+            myLocationMarker.setMap(map);
+
+            // 로그 출력 및 알림
+            console.log("현재 위치로 이동 완료");
+            //alert("내 위치로 이동했습니다.");
+          },
+          function (error) {
+            console.error("현재 위치를 가져오는 데 실패했습니다.", error);
+            alert("현재 위치를 가져올 수 없습니다.");
+          }
+        );
+      }
+
+      // 전환 기능 (출발지 <-> 목적지)
+      function swapAddresses() {
+        // Get the values of the start and end address fields
+        const startAddress = document.getElementById("startAddress");
+        const endAddress = document.getElementById("endAddress");
+
+        // Swap the values
+        const temp = startAddress.value;
+        startAddress.value = endAddress.value;
+        endAddress.value = temp;
+
+        // Optional: Add a log or alert for debugging
+        console.log("Addresses swapped:", {
+          start: startAddress.value,
+          end: endAddress.value,
+        });
+      }
+
+      // 확대 버튼 클릭 시 실행
+      function zoomIn() {
+        if (map) {
+          const currentLevel = map.getLevel(); // 현재 줌 레벨 가져오기
+          if (currentLevel > 1) {
+            map.setLevel(currentLevel - 1); // 줌 레벨 감소 (지도 확대)
+          }
+        }
+      }
+
+      // 축소 버튼 클릭 시 실행
+      function zoomOut() {
+        if (map) {
+          const currentLevel = map.getLevel(); // 현재 줌 레벨 가져오기
+          map.setLevel(currentLevel + 1); // 줌 레벨 증가 (지도 축소)
+        }
+      }
+
+      // 지도에 그려진 기존 경로 및 마커 초기화
+      function clearRoutes(preserveMarkers = false) {
+        // 기존 경로는 유지하고 새 경로 추가를 위해 폴리라인을 삭제하지 않음
+        if (window.routePolylines && !preserveMarkers) {
+          window.routePolylines.forEach((polyline) => {
+            polyline.setMap(null);
+          });
+          window.routePolylines = [];
+          console.log("// 기존 경로 초기화 완료");
+        }
+
+        // 출발지와 도착지 마커 초기화
+        if (window.startMarker) {
+          window.startMarker.setMap(null);
+          console.log("//수정: 기존 출발지 마커 제거 완료");
+        }
+        if (window.endMarker) {
+          window.endMarker.setMap(null);
+          console.log("//수정: 기존 도착지 마커 제거 완료");
+        }
+
+        // 이벤트 마커 초기화 (preserveMarkers가 false인 경우만)
+        if (!preserveMarkers) {
+          markers.forEach(({ marker }) => {
+            marker.setMap(null);
+          });
+          console.log("//수정: 기존 이벤트 마커 초기화 완료");
+        }
+      }
+
+      // 다익스트라 알고리즘 추가
+      function dijkstra(graph, startNode) {
+        const distances = {};
+        const visited = new Set();
+        const priorityQueue = [[startNode, 0]];
+
+        Object.keys(graph).forEach((node) => {
+          distances[node] = Infinity;
+        });
+        distances[startNode] = 0;
+
+        while (priorityQueue.length > 0) {
+          const [currentNode, currentDistance] = priorityQueue.shift();
+
+          if (visited.has(currentNode)) continue;
+          visited.add(currentNode);
+
+          const neighbors = graph[currentNode] || {};
+          for (const [neighbor, weight] of Object.entries(neighbors)) {
+            const distance = currentDistance + weight;
+            if (distance < distances[neighbor]) {
+              distances[neighbor] = distance;
+              priorityQueue.push([neighbor, distance]);
+            }
+          }
+          priorityQueue.sort((a, b) => a[1] - b[1]); // 최소 거리 기준 정렬
+        }
+
+        return distances;
+      }
+
+      let currentRoute = []; // 현재 경로 데이터 저장
+      let rerouting = false; // 경로 재검색 상태
+
+      // 경로 재검색 함수
+      async function rerouteRoute(currentLocation) {
+        rerouting = true;
+
+        try {
+          // 새로운 경로 계산 요청
+          const startCoords = currentLocation;
+          const endCoords = window.endMarker.getPosition();
+          const selectedRouteOption = document.querySelector(
+            'input[name="routeOption"]:checked'
+          ).value;
+
+          console.log("startCoords >>>>>>>> " + startCoords);
+          console.log("startCoords >>>>>>>> " + endCoords);
+
+          const newRouteData = await getRouteData(
+            startCoords,
+            endCoords,
+            selectedRouteOption
+          );
+          if (newRouteData) {
+            drawRoute(newRouteData); // 새 경로를 지도에 표시
+            currentRoute = newRouteData; // 새 경로 데이터 저장
+            console.log("새 경로 데이터 적용 완료");
+          }
+        } catch (error) {
+          console.error("경로 재검색 중 오류 발생:", error);
+        } finally {
+          rerouting = false;
+        }
+      }
+
+      // Haversine formula를 사용하여 두 좌표 간의 거리를 계산하는 함수
+      function calculateDistance(lat1, lng1, lat2, lng2) {
+        const R = 6371e3; // 지구의 반경 (미터)
+        const toRad = (value) => (value * Math.PI) / 180; // 각도를 라디안으로 변환
+        const φ1 = toRad(lat1);
+        const φ2 = toRad(lat2);
+        const Δφ = toRad(lat2 - lat1);
+        const Δλ = toRad(lng2 - lng1);
+
+        const a =
+          Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+          Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c; // 거리 (미터 단위)
+      }
+
+      // 경로 상 마커와의 거리 확인 함수
+      function checkMarkersProximity(routeData) {
+        const eventRadius = 800; // 경로 상에서 800m 이내 거리
+        let rerouteRequired = false;
+
+        routeData.forEach((segment) => {
+          if (segment.geometry.type === "LineString") {
+            segment.geometry.coordinates.forEach(([lng, lat]) => {
+              const pointCoords = new kakao.maps.LatLng(lat, lng);
+
+              markers.forEach(({ marker }) => {
+                const markerCoords = marker.getPosition();
+                const distance = calculateDistance(
+                  pointCoords.getLat(),
+                  pointCoords.getLng(),
+                  markerCoords.getLat(),
+                  markerCoords.getLng()
+                );
+
+                if (distance < eventRadius) {
+                  rerouteRequired = true;
+                  console.log(
+                    `경로 상 마커 감지: ${markerCoords}, 거리: ${distance}m`
+                  );
+                }
+              });
+            });
+          }
+        });
+
+        if (rerouteRequired) {
+          console.log("경로 상 마커가 감지되었습니다. 재탐색 시작");
+          rerouteAvoidingMarkers(routeData); // 기존 경로는 유지
+        }
+
+        return rerouteRequired;
+      }
+
+      // 마커를 회피하는 경로 재탐색 함수
+      async function rerouteAvoidingMarkers(routeData) {
+        try {
+          // 기존 경로의 시작 및 종료 좌표 가져오기
+          const startCoords = routeData.find(
+            (feature) =>
+              feature.geometry.type === "Point" &&
+              feature.properties.pointType === "S"
+          )?.geometry.coordinates;
+
+          const endCoords = routeData.find(
+            (feature) =>
+              feature.geometry.type === "Point" &&
+              feature.properties.pointType === "E"
+          )?.geometry.coordinates;
+
+          if (!startCoords || !endCoords) {
+            console.error("경로 재탐색 실패: 시작 또는 종료 좌표가 없습니다.");
+            return;
+          }
+
+          // TMap API 호출하여 새로운 경로 요청
+          const newRouteData = await getRouteData(
+            new kakao.maps.LatLng(startCoords[1], startCoords[0]),
+            new kakao.maps.LatLng(endCoords[1], endCoords[0]),
+            "1" // 최소 거리 우선 옵션 사용
+          );
+
+          if (newRouteData) {
+            drawRoute(newRouteData, true); // 새 경로 렌더링
+            console.log("새 경로 렌더링 완료");
+          }
+        } catch (error) {
+          console.error("경로 재탐색 중 오류 발생:", error);
+        }
+      }
+
+      // 경로 비교 함수
+      function comparePaths(path1, path2) {
+        if (path1.length !== path2.length) {
+          return false; // 경로의 점 개수가 다르면 다르다고 판단
+        }
+        const epsilon = 0.00001; // 허용 오차
+        for (let i = 0; i < path1.length; i++) {
+          const latDiff = Math.abs(path1[i].getLat() - path2[i].getLat());
+          const lngDiff = Math.abs(path1[i].getLng() - path2[i].getLng());
+          if (latDiff > epsilon || lngDiff > epsilon) {
+            return false; // 허용 오차를 초과하면 다른 경로로 간주
+          }
+        }
+        return true; // 모든 점이 허용 오차 내에서 동일하면 동일한 경로
+      }
+    </script>
   </body>
 </html>
